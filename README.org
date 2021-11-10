@@ -1,0 +1,12 @@
+* Shell functions
+** Purpose
+Just a place to store some shell functions that might be useful at some point in the /future/. 
+** what they do
+
+   |----------+------------------------------|
+   | Function | what it does                 |
+   |----------+------------------------------|
+   | big      | top files in the *nix-store* |
+   | cry      | some crypto details for fun  |
+   | killp    | kill a bunch of processes    |
+   |----------+------------------------------|
