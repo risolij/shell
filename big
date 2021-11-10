@@ -1,0 +1,15 @@
+#!/bin/bash
+
+big() {
+  pasteit() {
+  		echo "==================================================="
+  		paste <(echo "$1") <(echo "$2")
+  }
+
+  data=$( du -sh /nix/store/* | sort -h | tail )
+  size=$(awk '{print $1}' <<< $data )
+  package=$( cut -d'-' -f2- <<< $(awk '{print $2};' <<< $data ) )
+
+  pasteit "Size" "Package"
+  pasteit "$size" "$package"
+}

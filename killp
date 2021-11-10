@@ -1,0 +1,21 @@
+#!/bin/bash
+
+killp () {
+	## List of pids/base commands filtered by user input
+	data=$(ps -U $USER -o pid,comm | grep -i "$1")
+
+	## Count Lines
+	count=$(wc -l <<< $data)
+
+	## Loop through iteration to kill
+	while read line
+	do
+		process="${line##*\ }"
+		processid="${line%\ *}"
+
+		echo "$count) Killing :: $processid -> $process"
+		count=$(( count - 1 ))
+		kill -9 $processid
+	done <<< $data
+
+}

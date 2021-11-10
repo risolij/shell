@@ -1,0 +1,65 @@
+#!/bin/bash
+
+#########################################
+##                                     ##
+##  :: Crypto Tracker                  ##
+##                                     ##
+#########################################
+##                                     ##
+##                                     ##
+##  :: [x] It may make you cry         ##
+##  :: [x] When it doubt buy the dips  ##
+##                                     ##
+##                                     ##
+#########################################
+
+cry() {
+	## Formatting input ###################################################
+	formatter() {
+		paste <(echo "$1") <(echo "$2") <(echo "$3") | sort -k2 -h -r | expand -t20
+	}
+
+
+	## Define some variables
+	###################################################
+	url="https://api.coingecko.com/api/v3/coins"
+	coins=($@)
+
+	## Validate empty set was not provided
+	###################################################
+	if [[ "${#coins[@]}" -eq 0 ]]; then
+		echo "Please provide a list of coins"
+		return 0
+	fi
+
+	## Switch to actual names based on short names
+	###################################################
+	for index in "${!coins[@]}"
+	do
+		case "${coins[$index]}" in
+			eth     ) 	coins[$index]="ethereum"; 	;;
+			btc     ) 	coins[$index]="bitcoin"; 	;;
+			ada     ) 	coins[$index]="cardano"; 	;;
+			atom    )	coins[$index]="cosmos"; 	;;
+			xrp     ) 	coins[$index]="ripple"; 	;;
+		esac
+	done
+
+	## Parallel api call for all user provided coins
+	###################################################
+	data=$(parallel -I % -P8 --keep-order \
+		"curl -X GET -s ${url}/% | jq -r '.market_data.current_price | \"\\(.usd) \\(.btc)\"'" ::: "${coins[@]}")
+
+	## Columns 2 & 3 
+	###################################################
+	usd=$(awk '{print $1}' <<< $data)
+	btc=$(awk '{print $2}' <<< $data)
+	
+	## Print it out 
+	###################################################
+	echo "========================================================================"
+	formatter "Coin" "USD Price" "BTC Price"
+	echo "========================================================================"
+	formatter "$(parallel --keep-order echo ::: "${coins[@]}")" "$usd" "$btc" 
+	echo "========================================================================"
+}
