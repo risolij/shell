@@ -1,3 +1,6 @@
+* Shell Scripts
+** Powermenu && screenie original author
+   - [[https://github.com/adi1090x/rofi][adi1090x]]
 * Shell functions
 ** Purpose
 Just a place to store some shell functions that might be useful at some point in the /future/. 
