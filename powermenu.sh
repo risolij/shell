@@ -1,5 +1,14 @@
 #!/run/current-system/sw/bin/bash
 
+##### Original Author #####
+## Author  : Aditya Shakya
+## Mail    : adi1090x@gmail.com
+## Github  : @adi1090x
+## Twitter : @adi1090x
+###########################
+
+## Modifications made by req
+
 theme="full_circle"
 dir="$HOME/.config/rofi/powermenu"
 color="nightly.rasi"
